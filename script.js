@@ -1,16 +1,16 @@
-let myCat = {
-    name: "Рысь",
-    age: 5,
-    image: "/images/risya.jpg",
-    favorite: false
-}
+// let myCat = {
+//     name: "Рысь",
+//     age: 5,
+//     image: "/images/risya.jpg",
+//     favorite: false
+// }
 
-let myCat2 = {
-    name: "Шоколад",
-    favorite: true
-}
+// let myCat2 = {
+//     name: "Шоколад",
+//     favorite: true
+// }
 
-const box = document.querySelector(".container");
+
 
 function createCard(cat, el = box) {
 
@@ -49,9 +49,9 @@ function createCard(cat, el = box) {
         age.innerText = cat.age;
         card.append(age);
         }
-    card.addEventListener("click", (e) => {
-        deleteCard(cat.id, card)
-    });    
+   // card.addEventListener("click", (e) => {
+   //     deleteCard(cat.id, card)
+   // });    
     el.append(card);
 }
 
@@ -71,8 +71,7 @@ function deleteCard(id) {
 createCard(myCat);
 createCard(myCat2);
 
-const user = "asrmod";
-const path = `https://cats.petiteweb.dev/api/single/${user}`
+
 
 fetch(path + "/show")
     .then(function(res) {
@@ -82,19 +81,20 @@ fetch(path + "/show")
     })
     .then(function(data) {
         //console.log(data);
+        //if (!data.length)
         for (let c of data) {
             createCard(c, box);
         }
     })
 
-let ids = [];
-fetch(path + "/ids")
-    .then(res => res.json())
-    .then(data => {
-        ids = [...data];
-        myCat.id = ids.length ? ids[ids.length - 1] + 1 : 1;
-        // addCat(myCat);
-    })
+// let ids = [];
+// fetch(path + "/ids")
+//     .then(res => res.json())
+//     .then(data => {
+//         ids = [...data];
+//         myCat.id = ids.length ? ids[ids.length - 1] + 1 : 1;
+//         // addCat(myCat);
+//     })
 
 
 function addCat(cat) {
