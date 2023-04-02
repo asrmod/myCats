@@ -1,26 +1,17 @@
-// let myCat = {
-//     name: "Рысь",
-//     age: 5,
-//     image: "/images/risya.jpg",
-//     favorite: false
-// }
-
-// let myCat2 = {
-//     name: "Шоколад",
-//     favorite: true
-// }
-
-
-
 function createCard(cat, el = box) {
 
     const card = document.createElement("div");
     card.className = "card";
+
+
+    const catpic = document.createElement("div");
+    catpic.className = "catpic";
     if (!cat.image) {
-        card.classList.add("default");
+        catpic.classList.add("default");
     } else {
-        card.style.backgroundImage = `url(${cat.image})`
+        catpic.style.backgroundImage = `url(${cat.image})`
     }
+
     const name = document.createElement("h3");
     name.innerText = cat.name;
     
@@ -43,10 +34,10 @@ function createCard(cat, el = box) {
         })
         }
     })
-    card.append(like, name);
+    card.append(like, catpic, name);
     if (cat.age >=0) {
         const age = document.createElement("span");
-        age.innerText = cat.age;
+        age.innerText = cat.age + " лет";
         card.append(age);
         }
    // card.addEventListener("click", (e) => {
@@ -68,11 +59,6 @@ function deleteCard(id) {
     }
 }
 
-createCard(myCat);
-createCard(myCat2);
-
-
-
 fetch(path + "/show")
     .then(function(res) {
         if (res.statusText === "OK") {
@@ -81,9 +67,12 @@ fetch(path + "/show")
     })
     .then(function(data) {
         //console.log(data);
-        //if (!data.length)
-        for (let c of data) {
+        if (!data.length) {
+          box.innerHTML = "<div class=\"empty\">У вас пока еще нет питомцев</div>"
+        } else {
+            for (let c of data) {
             createCard(c, box);
+            }
         }
     })
 
