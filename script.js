@@ -30,11 +30,37 @@ function createCard(cat, el = box) {
             if (res.status === 200) {
                 like.classList.toggle("fa-solid");
                 like.classList.toggle("fa-regular");
+                cats = cats.map(c => {
+                    if (c.id === cat.id) {
+                        c.favorite = !cat.favorite;
+                    }
+                    return c;
+                })
+                localStorage.setItem("cats-data", JSON.stringify(cats));
             }
         })
         }
     })
-    card.append(like, catpic, name);
+
+    const trash = document.createElement("i");
+    trash.className = "fa-solid fa-trash card__trash";
+    trash.addEventListener("click", e => {
+        deleteCard(cat.id, e.currentTarget.parentTarget);
+    })
+
+    const edit = document.createElement("i");
+    edit.className = "fa-solid fa-pencil card__edit";
+    edit.addEventListener("click", e => {
+        editCard(cat.id, e.currentTarget.parentTarget);
+    })
+
+    const more = document.createElement("i");
+    more.className = "fa-solid fa-info-circle card__more";
+    more.addEventListener("click", e => {
+        moreDetailed(cat.id, e.currentTarget.parentTarget);
+    })
+
+    card.append(like, catpic, name, more, edit, trash);
     if (cat.age >=0) {
         const age = document.createElement("span");
         age.innerText = cat.age + " лет";
@@ -54,27 +80,27 @@ function deleteCard(id) {
             .then(res => {
                 if (res.status === 200) {
                     el.remove();
+                    cats = cats.filter(c => c.id !== id) 
+                    localStorage.setItem("cats-data", JSON.stringify(cats));
                 }
             })
     }
 }
 
-fetch(path + "/show")
-    .then(function(res) {
-        if (res.statusText === "OK") {
-            return res.json();
-        }
-    })
-    .then(function(data) {
-        //console.log(data);
-        if (!data.length) {
-          box.innerHTML = "<div class=\"empty\">У вас пока еще нет питомцев</div>"
-        } else {
-            for (let c of data) {
-            createCard(c, box);
-            }
-        }
-    })
+// =>
+
+// function editCard(id) {
+//         fetch(`${path}/update/${id}`, {
+//             method: "put"
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify(cat)
+//         })
+//         .then(res => res.json())
+// }
+
+
 
 // let ids = [];
 // fetch(path + "/ids")
@@ -95,5 +121,36 @@ function addCat(cat) {
         body: JSON.stringify(cat)
     })
     .then(res => res.json())
+}
+
+if (cats) {
+    try {
+          cats = JSON.parse(cats);
+          for (let cat of cats) {
+            createCard(cat, box);
+          }
+    } catch(e) {
+        if (err) {
+        cats = null;
+    }}
+} else {
+    fetch(path + "/show")
+    .then(function(res) {
+        if (res.statusText === "OK") {
+            return res.json();
+        }
+    })
+    .then(function(data) {
+        //console.log(data);
+        if (!data.length) {
+          box.innerHTML = "<div class=\"empty\">У вас пока еще нет питомцев</div>"
+        } else {
+            cats = [...data];
+            localStorage.setItem("cats-data", JSON.stringify(data));
+            for (let c of data) {
+            createCard(c, box);
+            }
+        }
+    })
 }
 
