@@ -51,16 +51,16 @@ function createCard(cat, el = box) {
     const edit = document.createElement("i");
     edit.className = "fa-solid fa-pencil card__edit";
     edit.addEventListener("click", e => {
-        editCard(cat.id, e.currentTarget.parentTarget);
+        editCard();
     })
 
     const more = document.createElement("i");
     more.className = "fa-solid fa-info-circle card__more";
     more.addEventListener("click", e => {
-        moreDetailed(cat.id, e.currentTarget.parentTarget);
+        moreDetailed(cat.id);
     })
 
-    card.append(like, catpic, name, more, edit, trash);
+    card.append(catpic, like, name, more, edit, trash);
     if (cat.age >=0) {
         const age = document.createElement("span");
         age.innerText = cat.age + " лет";
@@ -89,16 +89,16 @@ function deleteCard(id) {
 
 // =>
 
-// function editCard(id) {
-//         fetch(`${path}/update/${id}`, {
-//             method: "put"
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(cat)
-//         })
-//         .then(res => res.json())
-// }
+function moreDetailed(id) {
+        fetch(`${path}/show/${id}`, {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(cat)
+        })
+        .then(res => res.json())
+}
 
 
 

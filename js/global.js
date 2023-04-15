@@ -1,6 +1,8 @@
 const box = document.querySelector(".container");
 const addBtn = document.querySelector(".add-btn");
+const moreBtn = document.querySelector(".more-btn");
 const mdBox = document.querySelector(".modal-container");
+const moreBox = document.querySelector(".more-container");
 const mdClose = mdBox.querySelector(".modal-close");
 const addForm = document.forms.add;
 
