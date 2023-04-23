@@ -36,7 +36,7 @@ function createCard(cat, el = box) {
                     }
                     return c;
                 })
-                localStorage.setItem("cats-data", JSON.stringify(cats));
+                // localStorage.setItem("cats-data", JSON.stringify(cats));
             }
         })
         }
@@ -50,9 +50,88 @@ function createCard(cat, el = box) {
 
     const edit = document.createElement("i");
     edit.className = "fa-solid fa-pencil card__edit";
+    //
+
     edit.addEventListener("click", e => {
-        editCard();
+        e.stopPropagation();
+        upd.style.display = "flex";
+        const idInput = upd.querySelector("input[name=id]");
+        if (idInput) {
+            idInput.value=cat.id;
+        }
+        const nameInput = upd.querySelector("input[name=name]");
+        if (nameInput) {
+            nameInput.value=cat.name;
+        }
+        const imageInput = upd.querySelector("input[name=image]");
+        if (imageInput) {
+            imageInput.value=cat.image;
+        }
+        const favoriteInput = upd.querySelector("input[name=favorite]");
+        if (favoriteInput) {
+            favoriteInput.value=cat.favorite;
+        }
+        const descriptionInput = upd.querySelector("input[name=description]");
+        if (descriptionInput) {
+            descriptionInput.value=cat.description;
+        }
+    });
+
+    
+    editClose.addEventListener("click", e => {
+        upd.style = null;
     })
+
+    // // Отправка формы обратной связи c изменениями
+const updForm = document.forms.upd;
+updForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const body = {};
+    for (let i = 0; i < updForm.elements.length; i++) {
+        const inp = updForm.elements[i];
+        if (inp.name) {
+            if (inp.type === "checkbox") {
+                body[inp.name] = inp.checked;
+            } else {
+                body[inp.name] = inp.value;
+            }
+        }
+    }
+    body.id = +body.id;
+    console.log("upd", body);
+
+    fetch(`${path}/update/${body.id}`, {
+        method: "put",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    })
+    .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if (data.message.includes("успешно")) {
+                cats = cats.map(cat => {
+                    if (cat.id === body.id) {
+                        return body;
+                    }
+                    return cat;
+                })
+                console.log(cats);
+                box.innerHTML = "";
+                cats.forEach(cat => {
+                    createCart(cat, box);
+                })
+                updForm.reset()
+                upd.style = null;
+            } else {
+                return res.json();
+            }
+        })
+       
+})
+
+    //
 
     const more = document.createElement("i");
     more.className = "fa-solid fa-info-circle card__more";
@@ -66,9 +145,11 @@ function createCard(cat, el = box) {
         age.innerText = cat.age + " лет";
         card.append(age);
         }
-   // card.addEventListener("click", (e) => {
-   //     deleteCard(cat.id, card)
-   // });    
+
+        more.addEventListener("click", e => {
+            location.assign(`info.html?id=${cat.id}`)
+        })   
+        
     el.append(card);
 }
 
@@ -81,25 +162,13 @@ function deleteCard(id) {
                 if (res.status === 200) {
                     el.remove();
                     cats = cats.filter(c => c.id !== id) 
-                    localStorage.setItem("cats-data", JSON.stringify(cats));
+                    // localStorage.setItem("cats-data", JSON.stringify(cats));
                 }
             })
     }
 }
 
 // =>
-
-function moreDetailed(id) {
-        fetch(`${path}/show/${id}`, {
-            method: "get",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(cat)
-        })
-        .then(res => res.json())
-}
-
 
 
 // let ids = [];
@@ -146,7 +215,7 @@ if (cats) {
           box.innerHTML = "<div class=\"empty\">У вас пока еще нет питомцев</div>"
         } else {
             cats = [...data];
-            localStorage.setItem("cats-data", JSON.stringify(data));
+            // localStorage.setItem("cats-data", JSON.stringify(data));
             for (let c of data) {
             createCard(c, box);
             }

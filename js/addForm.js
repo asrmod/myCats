@@ -31,7 +31,7 @@ addForm.addEventListener("submit", e => {
             mdBox = null;
             createCard(body);
             cats.push(body);
-            localStorage.setItem("cats-data", JSON.stringify(cats));
+            // localStorage.setItem("cats-data", JSON.stringify(cats));
         } else {
             return res.json();
         }

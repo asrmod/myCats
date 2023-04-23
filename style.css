@@ -167,8 +167,7 @@ h3 {
     content: "...";
 }
 
-.modal-container,
-.more-container {
+.modal-container {
     position: fixed;
     background-color: #0008;
     backdrop-filter: blur(2px);
@@ -241,3 +240,46 @@ nav {
     color: silver;
 
 }
+
+.name,
+.info {
+    color: rgb(245, 242, 242);
+    text-shadow: 0 16px 36px rgb(16, 15, 15);
+    padding: 10px;
+    text-align: center;
+}
+
+.img {
+    width: 900px; 
+    justify-self: center;
+}
+
+.md-container {
+    position: fixed;
+    background-color: #0008;
+    backdrop-filter: blur(2px);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.md {
+    background-color:  rgb(253, 253, 252);
+    padding: 30px;
+    border-radius: 8px;
+    width: calc(100% - 60px);
+    max-width: 300px;
+    max-height: calc(100% - 60px);
+    position: relative;
+}
+
+.md form {
+    display: grid;
+    gap: 10px;
+}
+    

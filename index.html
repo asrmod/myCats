@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cats</title>
+    <link rel="icon" type="image/png" href="/images/favicon.ico"/>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -46,12 +47,22 @@
         </div>
     </div>
 
-    <div class="more-container">
-        <div class="modal">
-            <i class="fa-regular fa-circle-xmark modal-close"></i>
-            <h2>Информация о питомце</h2>
-            
-        </div>    
+    <div class="md-container" data-type="upd">
+        <div class="md">
+            <i class="fa-regular fa-circle-xmark modal-close md-close"></i>
+            <h2>Изменить питомца</h2>
+            <form id="upd">
+                <input type="number"  name="id" required disabled placeholder="id">
+                <input type="text" name="name" required placeholder="Имя питомца">
+                <input type="url" name="image" placeholder="Ссылка на картинку">
+                <label>
+                    <input type="checkbox" name="favorite">
+                    Любимчик
+                </label>
+                <textarea type="text" name="description" placeholder="Описание"></textarea>
+                <button class="btn" type="submit">Сохранить</button>
+            </form>
+        </div>
     </div>
 
     <footer>
