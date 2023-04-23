@@ -82,7 +82,7 @@ function createCard(cat, el = box) {
         upd.style = null;
     })
 
-    // // Отправка формы обратной связи c изменениями
+
 const updForm = document.forms.upd;
 updForm.addEventListener("submit", e => {
     e.preventDefault();
